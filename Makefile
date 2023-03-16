@@ -39,7 +39,7 @@ clean:
 .PHONY: build
 build:
 	cd cmd/go-runner && \
-	go build $(GO_BUILD_FLAGS) -ldflags $(GO_LDFLAGS) && \
+	env GOOS=$(OSNAME) GOARCH=$(OSARCH) go build $(GO_BUILD_FLAGS) -ldflags $(GO_LDFLAGS) && \
 	mv go-runner ../..
 
 .PHONY: lint
