@@ -35,6 +35,7 @@ func (b *BizAction) ParseConf(in []byte) (conf interface{}, err error) {
 
 func (b *BizAction) RequestFilter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
 	actionConf := conf.(BizActionConf)
+	w.Header().Add("x-biz-action", "filtered")
 	if len(actionConf.msg) == 0 {
 		return
 	}
