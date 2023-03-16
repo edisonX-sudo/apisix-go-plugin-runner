@@ -18,14 +18,14 @@ default: help
 
 VERSION ?= latest
 RELEASE_SRC = apisix-go-plugin-runner-${VERSION}-src
-OS_LINUX_AMD64="false"
+OS_LINUX_X86="true"
 GITSHA ?= $(shell git rev-parse --short=7 HEAD 2> /dev/null || echo '')
-OSNAME ?= $(shell if [[ $(OS_LINUX_AMD64) == 'true' ]]; then echo 'linux'; else uname -s | tr A-Z a-z; fi;)
-OSARCH ?= $(shell if [[ $(OS_LINUX_AMD64) == 'true' ]]; then echo 'amd64'; else uname -m | tr A-Z a-z; fi;)
+OSNAME ?= $(shell if [[ $(OS_LINUX_X86) == 'true' ]]; then echo 'linux'; else uname -s | tr A-Z a-z; fi;)
+OSARCH ?= $(shell if [[ $(OS_LINUX_X86) == 'true' ]]; then echo 'x86_64'; else uname -m | tr A-Z a-z; fi;)
 PWD ?= $(shell pwd)
-ifeq ($(OSARCH), x86_64)
-	OSARCH = amd64
-endif
+#ifeq ($(OSARCH), x86_64)
+#	OSARCH = amd64
+#endif
 
 VERSYM=main._buildVersion
 GITSHASYM=main._buildGitRevision
