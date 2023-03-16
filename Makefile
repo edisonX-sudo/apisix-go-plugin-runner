@@ -18,7 +18,7 @@ default: help
 
 VERSION ?= latest
 RELEASE_SRC = apisix-go-plugin-runner-${VERSION}-src
-OS_LINUX_AMD64="true"
+OS_LINUX_AMD64="false"
 GITSHA ?= $(shell git rev-parse --short=7 HEAD 2> /dev/null || echo '')
 OSNAME ?= $(shell if [[ $(OS_LINUX_AMD64) == 'true' ]]; then echo 'linux'; else uname -s | tr A-Z a-z; fi;)
 OSARCH ?= $(shell if [[ $(OS_LINUX_AMD64) == 'true' ]]; then echo 'amd64'; else uname -m | tr A-Z a-z; fi;)

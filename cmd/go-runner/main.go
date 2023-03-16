@@ -24,6 +24,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"runtime/pprof"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/thediveo/enumflag"
@@ -159,6 +160,16 @@ func NewCommand() *cobra.Command {
 }
 
 func main() {
+
+	f, err := os.Create("startup.log")
+	defer f.Close()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+	args := os.Args[:]
+	f.Write([]byte(strings.Join(args, " ")))
+
 	root := NewCommand()
 	if err := root.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
