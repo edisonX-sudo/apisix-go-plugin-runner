@@ -28,7 +28,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/thediveo/enumflag"
 	"go.uber.org/zap/zapcore"
-
+	//此处挂载了plugins(里面有init方法)
+	_ "github.com/apache/apisix-go-plugin-runner/cmd/go-runner/bizplugin"
 	_ "github.com/apache/apisix-go-plugin-runner/cmd/go-runner/plugins"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/apache/apisix-go-plugin-runner/pkg/runner"
@@ -90,11 +91,13 @@ func openFileToWrite(name string) (*os.File, error) {
 }
 
 func newRunCommand() *cobra.Command {
+	//todo config mode
 	var mode RunMode
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "run",
 		Run: func(cmd *cobra.Command, _ []string) {
+			//todo cfg log level
 			cfg := runner.RunnerConfig{}
 			if mode == Prod {
 				cfg.LogLevel = zapcore.WarnLevel
