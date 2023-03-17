@@ -65,8 +65,8 @@ const (
 	Prod                // Product
 	Prof                // Profile
 
-	ProfileFilePath = "./logs/profile."
-	LogFilePath     = "./logs/runner.log"
+	ProfileFilePath = "/data/logs/profile."
+	LogFilePath     = "/data/logs/runner.log"
 )
 
 var RunModeIds = map[RunMode][]string{
@@ -101,7 +101,7 @@ func newRunCommand() *cobra.Command {
 			//todo cfg log level
 			cfg := runner.RunnerConfig{}
 			if mode == Prod {
-				cfg.LogLevel = zapcore.WarnLevel
+				cfg.LogLevel = zapcore.InfoLevel
 				f, err := openFileToWrite(LogFilePath)
 				if err != nil {
 					log.Fatalf("failed to open log: %s", err)

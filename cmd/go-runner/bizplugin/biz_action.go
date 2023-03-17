@@ -20,7 +20,7 @@ type BizAction struct {
 }
 
 type BizActionConf struct {
-	msg string
+	Msg string `json:"msg"`
 }
 
 func (b *BizAction) Name() string {
@@ -29,17 +29,24 @@ func (b *BizAction) Name() string {
 
 func (b *BizAction) ParseConf(in []byte) (conf interface{}, err error) {
 	actionConf := BizActionConf{}
+	log.Infof("conf: %s", string(in))
 	err = json.Unmarshal(in, &actionConf)
 	return actionConf, err
 }
 
 func (b *BizAction) RequestFilter(conf interface{}, w http.ResponseWriter, r pkgHTTP.Request) {
 	actionConf := conf.(BizActionConf)
-	w.Header().Add("x-biz-action", "filtered")
-	if len(actionConf.msg) == 0 {
+	marshal, err := json.Marshal(actionConf)
+	if err != nil {
+		log.Errorf("json Marshal failed", err)
+	}
+	log.Infof("info: %s", marshal)
+	msg := actionConf.Msg
+	if len(msg) == 0 {
 		return
 	}
-	_, err := w.Write([]byte(actionConf.msg))
+	w.Header().Add("x-biz-action", "filtered")
+	_, err = w.Write([]byte(msg))
 	if err != nil {
 		log.Errorf("err occurred on RequestFilter", err)
 	}
